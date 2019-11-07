@@ -1,0 +1,25 @@
+release name is {{ .Release.Name }} 
+
+echo "acctual proxy configuration"
+{{- range  .Values.proxy.services }}
+  - hostname: {{ .domain }}
+  {{- range  .hosts }}
+    - uri: {{ .address }}:{{- .port }}
+  {{- end }}
+{{- end }}
+
+
+== please set up the proxy configuration to reach the downstreams servers ==
+
+- List the internal IP of lbserverdown service :
+kubectl get pods -o wide | grep lbserverdown
+
+- in proxyconf.txt, add the IP adresses with the port {{ .Values.containerPort }} 
+
+-restart the proxy service  : 
+helm install lbproxy lbserverdown --values ./proxyconf.txt
+
+- you could then navigate these URL :
+{{- range  .Values.proxy.services }}
+  {{ .domain }}
+{{- end }}

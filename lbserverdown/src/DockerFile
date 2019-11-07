@@ -1,0 +1,7 @@
+FROM node:13-alpine
+WORKDIR /usr/src/app
+COPY *.j* ./
+RUN npm install
+# for production : RUN npm ci --only=production
+CMD [ "node", "server.js" ]
+EXPOSE 9090
