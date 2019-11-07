@@ -1,25 +1,15 @@
 release name is {{ .Release.Name }} 
 
-echo "acctual proxy configuration"
-{{- range  .Values.proxy.services }}
-  - hostname: {{ .domain }}
-  {{- range  .hosts }}
-    - uri: {{ .address }}:{{- .port }}
-  {{- end }}
-{{- end }}
-
+This a mock servicec called by the proxy
 
 == please set up the proxy configuration to reach the downstreams servers ==
 
-- List the internal IP of lbserverdown service :
+1 - List the internal IP of lbserverdown service :
 kubectl get pods -o wide | grep lbserverdown
 
-- in proxyconf.txt, add the IP adresses with the port {{ .Values.containerPort }} 
+2 - configure the proxy
+in the ../helm/lbproxy/proxy.yaml :
+add the IP adresses found with the port {{ .Values.containerPort }} 
 
--restart the proxy service  : 
-helm install lbproxy lbserverdown --values ./proxyconf.txt
-
-- you could then navigate these URL :
-{{- range  .Values.proxy.services }}
-  {{ .domain }}
-{{- end }}
+3 - start the proxy service
+helm install lbproxy lbproxy

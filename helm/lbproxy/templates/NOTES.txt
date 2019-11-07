@@ -15,7 +15,7 @@ THe release name is {{ .Release.Name }}
   helm upgrade lbproxy lbproxy
 
 - call the service :
-  http://my-service.my-company.com:{{ .Values.service.port }}
+  curl http://my-service.my-company.com:{{ .Values.service.port }}
 
 
 

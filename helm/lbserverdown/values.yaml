@@ -1,0 +1,18 @@
+appName: lbserverdown
+config:
+  guestbook_name: "mon livre d'or"
+  backend_uri: "http://blablabla.com"
+deploy:
+replicaCount: 3
+image:
+  repository: anthonygosme
+  tag: "latest"
+containerPort: 9090
+service:
+  port: 30090
+  type: NodePort
+  nodePort : 
+ingress:
+  #enable for standalone
+  enabled: true
+  host: my-service.my-company.com
