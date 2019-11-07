@@ -1,0 +1,32 @@
+proxy:
+  listen:
+    address: "127.0.0.1"
+    port: 8080
+  services:
+    - name: my-service
+      domain: my-service.my-company.com
+      hosts:
+        - address: "10.0.0.1"
+          port: 9090
+        - address: "10.0.0.2"
+          port: 9090
+        - address: "10.0.0.3"
+          port: 9090
+    - name: my-service2
+      domain: my-service2.my-company.com
+      hosts:
+        - address: "12.0.0.1"
+          port: 9092
+        - address: "12.0.0.2"
+          port: 9092
+        - address: "12.0.0.3"
+          port: 9092
+    - name: my-service3
+      domain: my-service3.my-company.com
+      hosts:
+        - address: "127.0.0.1"
+          port: 9090
+        - address: "localhost"
+          port: 9090
+        - address: "127.0.0.1"
+          port: 9090

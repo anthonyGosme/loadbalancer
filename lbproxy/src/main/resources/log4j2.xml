@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <!--
+        <Appenders>
+            <Console name="console" target="SYSTEM_OUT">
+
+            <JSONLayout complete="false" compact="true" eventEol="false" includeStacktrace="false" objectMessageAsJsonObject="false" />
+                <Policies>
+                    <SizeBasedTriggeringPolicy size="1 KB" />
+                </Policies>
+                <DefaultRolloverStrategy max="4"/>
+            </Console>
+        </Appenders>
+
+
+        <Loggers>
+            <root level="debug" additivity="false">
+                <AppenderRef ref="console"/>
+            </root>
+        </Loggers>
+    -->
+
+
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Root level="debug" additivity="false">
+            <AppenderRef ref="console"/>
+        </Root>
+
+    </Loggers>
+
+</Configuration>
