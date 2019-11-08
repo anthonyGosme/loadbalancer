@@ -1,5 +1,7 @@
 # loadbalancer project
 
+
+
 1.A - part 1implementaion of a proxy
 ===========
 
@@ -27,13 +29,14 @@ I've validate the code quality with :
 1.A.4 local test launchs
 -----------
 install and unitary test test :
-cd /loadbalancer/lbproxy
-- mvn clean install test
+_cd /loadbalancer/lbproxy
+_mvn clean install test
 run the proxy from the local envirronement
-cd /loadbalancer/lbproxy
-java -jar ./target/load-balancer-1.0-SNAPSHOT-jar-with-dependencies.jar
-curl http://127.0.0.1:8080/404
-_the target page called is http://httpstat.us/404 , the resolution is in conf.d/proxy.yaml 
+_cd /loadbalancer/lbproxy
+_java -jar ./target/load-balancer-1.0-SNAPSHOT-jar-with-dependencies.jar
+check if the proxy call http://httpstat.us/404  (the resolution is in conf.d/proxy.yaml) 
+_curl http://127.0.0.1:8080/404
+
 
 1.A.5 - why this solution ?
 ---------
@@ -41,41 +44,39 @@ I chose to implement the proxy with a low levels HTPP/1.1 java frameworK.
 At this level of abstraction easy to deal with the protocle.
 I use the Java 11 sun httpsever for inbound and Apache http client for outbound traffic request.
 
-1.B implementaion of a downstream server
+1.B implementaion of a downstream server (mock)
 ======
 1.B.1 implementaion
 -----
 
-I've implement downstream mock server in nodejs
+I've implement a downstream mock server in Node.js
 It send back the body, the headers received, a timestamp key
 Code quality
 
-1.B.2 cdoe quality
+1.B.2 code quality & test
 ------
-I use JSlint to check the coe
-
-1.B.3  test
----
-no specifc test,  but it used in integration test
+I use JSlint to check the code
+no unitary test, but the mock it used in integration test
 
 
 1.B.4 - why this solution ?
 -------
-A servedownstram mock allow to validate easly the proxy in real envirronement.
-I choose nodeJS veacaue is fast to implements an package servet mock with it. 
+A servedownstram mock allow to validate easyly the proxy in real envirronement.
+I choose Node.js beacaue is fast to implements and package a server mock with it. 
 
-part 2 automation & integrationn
+2 Automation & integrationn
 ===========
 
-1 Implementation
+2.A Implementation
 ---------
-The two server setup are dockerized (see the dockerFiles) then setup via helm
-when runnig helm "install lbproxy" the proxy configuration file is autamtly send to the proxy . 
+The two server are dockerized (see the .DockerFile files) then setup is done via helm.
+When runnig helm "install lbproxy" the proxy configuration file is automatically send to the proxy server 
 
 2 launch the mock
 ------------
-The first server to launch is de downstreams server mock (lbserverdown) :
-	./lbserverdown/helm lbserverdown lbserverdown
+The first server to launch is the downstream server mock (lbserverdown) :
+	cd helm
+	kubectl get pods -o wide | grep lbserverdown
 configure the 3 IP
 	retr
 	modify these ip in ./lbproxy/
