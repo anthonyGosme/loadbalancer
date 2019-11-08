@@ -30,3 +30,12 @@ proxy:
           port: 9090
         - address: "127.0.0.1"
           port: 9090
+    - name: my-service4
+      domain: 127.0.0.1
+      hosts:
+        - address: "httpstat.us"
+          port: 80
+        - address: "httpstat.us"
+          port: 80
+        - address: "httpstat.us"
+          port: 80

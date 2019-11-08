@@ -17,40 +17,39 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 class MainTest {
-    private final ServiceMock serviceMock = new ServiceMock();
+  private final ServiceMock serviceMock = new ServiceMock();
 
-    @BeforeAll
-    static void loadConfGlobal() {
-        try {
-            DownStreamService.loadConfig("./src/main/resources/target.yaml");
-        } catch (LoadingException e) {
-            e.printStackTrace();
-            fail();
-        }
+  @BeforeAll
+  static void loadConfGlobal() {
+    try {
+      DownStreamService.loadConfig("./src/main/resources/target.yaml");
+    } catch (LoadingException e) {
+      e.printStackTrace();
+      fail();
     }
+  }
 
-    @Test
-    void main() {
-        try {
-            for (int i = 0; i < 100; i++) {
-                serviceMock.startMockService();
-            }
-            startServer(8080);
-            HttpGet request = new HttpGet("http://my-service3.my-company.com:8080/tedq");
-            CloseableHttpClient httpClient = HttpClients.createDefault();
-            // call the server and check the response
+  @Test
+  void main() {
+    try {
+      for (int i = 0; i < 100; i++) {
+        serviceMock.startMockService();
+      }
+      startServer(8080);
+      HttpGet request = new HttpGet("http://my-service3.my-company.com:8080/tedq");
+      CloseableHttpClient httpClient = HttpClients.createDefault();
+      // call the server and check the response
 
-            System.out.println("call the proxy: " + request.getURI());
-            CloseableHttpResponse response = httpClient.execute(request);
-            String bodyResponse = EntityUtils.toString(response.getEntity());
-            System.out.println(">" + bodyResponse);
-            assertTrue(bodyResponse.contains("the mock server is up"));
+      System.out.println("call the proxy: " + request.getURI());
+      CloseableHttpResponse response = httpClient.execute(request);
+      String bodyResponse = EntityUtils.toString(response.getEntity());
+      System.out.println(">" + bodyResponse);
+      assertTrue(bodyResponse.contains("the mock server is up"));
 
-        } catch (IOException | LoadingException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-            fail();
-        }
-
+    } catch (IOException | LoadingException e) {
+      System.out.println(e.getMessage());
+      e.printStackTrace();
+      fail();
     }
+  }
 }
