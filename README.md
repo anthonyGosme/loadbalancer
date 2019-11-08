@@ -1,17 +1,16 @@
 # loadbalancer project
-part 1a implementaion of a proxy
+
+1.A - part 1implementaion of a proxy
 ===========
 
-1 Implementation
+1.A.1 Implementation
 -----
-I chose to implement the proxy with a low levels HTPP/1.1 java frameworK.
-this way is ost flexible  when dealing with protocle
-I use the Java 11 sun httpsever for inbound and Apache http client for outbound traffic request
-I've implement GET, POST, PUT and DELELE messages types
+the server is writen in java 11
+I've implemented GET, POST, PUT and DELELE messages types
 The headers are resend as it to the downstreams servers.
-The proxy automatly configured with th proxy.yaml found in the helm root directory
+The proxy is automatly configured with the proxy.yaml file found in the /helm/lbproxy directory.
 
-2 Code quality
+1.A.2 Code quality
 ------------
 I've validate the code quality with :
 - sonar
@@ -19,13 +18,13 @@ I've validate the code quality with :
 - code coverage 
 
 
-3 unitary Tests 
+1.A.3 unitary Tests 
 -------------
 - i've done 10 unitary test with Junit 
 - I've code embeded server mock server deployed and called by the Junit test
 
 
-4 launch
+1.A.4 local test launchs
 -----------
 install and unitary test test :
 cd /loadbalancer/lbproxy
@@ -36,12 +35,34 @@ java -jar ./target/load-balancer-1.0-SNAPSHOT-jar-with-dependencies.jar
 curl http://127.0.0.1:8080/404
 _the target page called is http://httpstat.us/404 , the resolution is in conf.d/proxy.yaml 
 
+1.A.5 - why this solution ?
+---------
+I chose to implement the proxy with a low levels HTPP/1.1 java frameworK.
+At this level of abstraction easy to deal with the protocle.
+I use the Java 11 sun httpsever for inbound and Apache http client for outbound traffic request.
 
+1.B implementaion of a downstream server
+======
+1.B.1 implementaion
+-----
 
-part 1b implementaion of a downstream server
-------------
 I've implement downstream mock server in nodejs
 It send back the body, the headers received, a timestamp key
+Code quality
+
+1.B.2 cdoe quality
+------
+I use JSlint to check the coe
+
+1.B.3  test
+---
+no specifc test,  but it used in integration test
+
+
+1.B.4 - why this solution ?
+-------
+A servedownstram mock allow to validate easly the proxy in real envirronement.
+I choose nodeJS veacaue is fast to implements an package servet mock with it. 
 
 part 2 automation & integrationn
 ===========
@@ -78,8 +99,8 @@ start the test using a jmeter installation
 
 6 - why this solution ?
 ---------
-	docker, helm and kubernetes are states of art solution to create, package and ship cloud aplication based on docker image, and all in a very replicable way.
-	Docker build image no dependencies of the hosts and automate the setup of the include service.
+docker, helm and kubernetes are states of art solution to create, package and ship cloud aplication based on docker image, and all in a very replicable way.
+Docker build image with no dependencies of the hosts and automate the setup of the include service.
 	kubernetes build resiliant services and replicable configuration arround docker images
 	helm package safe realease without harcoded information and manual stept and assure the deployment lifecycle
 	I do Jmeter integrations to test all 'the case in the target envirronement
