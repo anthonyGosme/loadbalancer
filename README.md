@@ -32,13 +32,13 @@ I've validate the code quality with :
 1.A.4 - local test launchs
 -----------
 install and unitary test test :
-_cd /loadbalancer/lbproxy
-_mvn clean install test
+cd /loadbalancer/lbproxy
+*mvn clean install test*
 run the proxy from the local envirronement
-_cd /loadbalancer/lbproxy
-_java -jar ./target/load-balancer-1.0-SNAPSHOT-jar-with-dependencies.jar
-check if the proxy call http://httpstat.us/404  (the resolution is in conf.d/proxy.yaml) 
-_curl http://127.0.0.1:8080/404
+*cd /loadbalancer/lbproxy*
+*java -jar ./target/load-balancer-1.0-SNAPSHOT-jar-with-dependencies.jar*
+check if the proxy call http://httpstat.us/404  (the resolution is in conf.d/proxy.yaml)
+*curl http://127.0.0.1:8080/404*
 
 
 1.A.5 - why this solution ?
@@ -83,28 +83,28 @@ When runnig helm "install lbproxy" the proxy configuration file is automatically
 2.B - launch the mock
 ------------
 The first server to launch is the downstream server mock (lbserverdown) :
-_cd helm
-_helm install lbproxy lbproxy
+*cd helm*
+*helm install lbproxy lbproxy*
 retrieve the internal IP ... wait 1 minute to IP to be set
-_kubectl get pods -o wide | grep lbserverdown
+*kubectl get pods -o wide | grep lbserverdown*
 Set up the proxy these 3 IP in the proxy under my-service3 service 
-_vi /helm/lbproxy/proxy.yaml
+*vi /helm/lbproxy/proxy.yaml*
 
 check the acces of the service
 (for test purpose the service expose the ip via minikube, and should be disabled for production)
-_minikube service lbserverdown
+*minikube service lbserverdown*
 
 2.C - Launch the proxy
 -----------
 check that /helm/lbproxy/proxy.yaml with the service IP (done in 2.B)
 install the proxy
-_cd helm
-_helm install lbproxy lbproxy
+*cd helm*
+*helm install lbproxy lbproxy*
 open the service in a browser
-_minikube service lbproxy
+*minikube service lbproxy*
 add the service ip found in hostname resolution linux: /etc/hosts windows: C:\Windows\System32\drivers\etc
-_172.17.169.222 aa my-service.my-company.com my-service2.my-company.com my-service3.my-company.com unknown-service.my-company.com
-curl http://my-service3.my-company.com:30080/test
+*172.17.169.222 aa my-service.my-company.com my-service2.my-company.com my-service3.my-company.com unknown-service.my-company.com
+curl http://my-service3.my-company.com:30080/test*
 
 2.D - run the Integratin Test
 -----------
@@ -113,7 +113,7 @@ the solution include integration test with jmeter
 - 1 Jmeter file with 9 integrations test 
 Install the last version of jmeter.
 
-open the test in /intg_test and run them to check multtiple scenariots 
+open the test in /intg*test and run them to check multtiple scenariots 
 
 
 2.E - why this solution ?
@@ -131,14 +131,10 @@ I do Jmeter integrations to test all 'the case in the target envirronement
 	
 
 3 - monitoring the service & SLI / not finished
-=========
-
-	
-===== part 3  monitoring the service & SLI / not finished =========
-	'
+======
 The target is to have a resiliant and well monitored service
 
-1 - (done) - do a test performace shoot  
+3.A - (done) - do a test performace shoot  
 --------
 to stress the proxy , get the max TPS supported and metric about the system
 I've done a jmeter perf test.
@@ -150,12 +146,9 @@ in my laptop with 100 Virtual users for 10minutes:
 - CPU is 60%
 see images for more informations
 
-2 - (to do) - define and test an operational range (SLO) (to do)
-----------
-use the same jmeter with different parameters
-I don't run the stress, charge and deconnections
 
-3 - (started) - use elastic search to agregate into data issue by the proxy
+
+3.B - (started) - use elastic search to agregate into data issue by the proxy
 --------------
  - create an ELK node
  - post the data from the proxy to elasticsearch 
@@ -166,7 +159,7 @@ I don't run the stress, charge and deconnections
  	- response size
  	- server downstream connection time
 
-4 - (started) - get health status of the proxy via : 
+4.C - (started) - get health status of the proxy via : 
 ---------
 	Hearthbeat :
 	 - liveness
@@ -177,21 +170,39 @@ I don't run the stress, charge and deconnections
 	- bandwith
 	- memory usage 
 	- http pool
+	
+4.D - (to do) - define and test an operational range / SLO
+----------
+use the jmeter performance test with different parameters
+run the stress, charge and deconnections test and observe how the metric cahnge
+Define SLO for the different metric based on result
+
+
 
 5 - (to do) monitoring and alert via kibana (SLI)
 -----------
- - create view and dashboard of the metrrics
- - create alert base on SIA & 
- - Monitor health and metric with kibana views and dashboarbs
-create Alert 
+Monitor SLI health and other interrestingd metrics with kibana views and dashboarbs.
+
+implement the SLI based on metric with suffisant marging :
+
+<=60% SLO green
+
+>=8O% for 5 minutes : orange, send an alert to pepole in charge od SLI
+
+>=100% for 5 minutes : red send an alert to pepole in charge of SLO and SLI
+
+- create views and dashboards of these metric metrrics
+
+- create alert base on SLI 
+
 
 6 - why this solution ?
 -----
-	I setup and work with differents SIEM, SLI and  APM platforms, 
-	and for devops task ELK (Open Distro) is my preffered  choice :
-		- It's very versitille and cover a variaty of need : SIEM, SIA, APM, custom monotoring and dashboard
-		- It's flexible and can't conect to many services and can't be setup for every specials needs
-		- It's seems to be here to stay a while 
-		- It's free and open source and always ready to setup
-	Other good alternatives are splunk and dynatrace
+I setup and work with differents SIEM, SLI and  APM platforms,and for devops task ELK (Open Distro) is my personnal choice :
+- It's very versitille and cover a variaty of need : SIEM, SIA, APM, custom monotoring and dashboard
+- It's flexible and can't conect to many services and can't be setup for every specials needs
+- It's seems to be here to stay a while 
+- It's free and open source and always ready to setup
+
+two other good alternatives to consider : splunk and dynatrace
 
