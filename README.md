@@ -8,8 +8,11 @@
 1.A.1 Implementation
 -----
 the server is writen in java 11
-I've implemented GET, POST, PUT and DELELE messages types
+
+I've implemented GET, POST, PUT and DELELE messages types.
+
 The headers are resend as it to the downstreams servers.
+
 The proxy is automatly configured with the proxy.yaml file found in the /helm/lbproxy directory.
 
 1.A.2 Code quality
@@ -41,7 +44,9 @@ _curl http://127.0.0.1:8080/404
 1.A.5 - why this solution ?
 ---------
 I chose to implement the proxy with a low levels HTPP/1.1 java frameworK.
+
 At this level of abstraction easy to deal with the protocle.
+
 I use the Java 11 sun httpsever for inbound and Apache http client for outbound traffic request.
 
 1.B implementaion of a downstream server (mock)
@@ -50,18 +55,20 @@ I use the Java 11 sun httpsever for inbound and Apache http client for outbound 
 -----
 
 I've implement a downstream mock server in Node.js
+
 It send back the body, the headers received, a timestamp key
-Code quality
 
 1.B.2 code quality & test
 ------
-I use JSlint to check the code
-no unitary test, but the mock it used in integration test
+I use JSlint to check the code.
+
+no unitary test, but the mock it used in integration test.
 
 
 1.B.4 - why this solution ?
 -------
 A servedownstram mock allow to validate easyly the proxy in real envirronement.
+
 I choose Node.js beacaue is fast to implements and package a server mock with it. 
 
 2 Automation & integrationn
@@ -70,6 +77,7 @@ I choose Node.js beacaue is fast to implements and package a server mock with it
 2.A Implementation
 ---------
 The two server are dockerized (see the .DockerFile files) then setup is done via helm.
+
 When runnig helm "install lbproxy" the proxy configuration file is automatically send to the proxy server 
 
 2 launch the mock
