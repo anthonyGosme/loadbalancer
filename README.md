@@ -25,6 +25,9 @@ I've validated the code quality with :
 - I've done 10 unitary test with Junit
 - I've code embedded server mock server deployed and called by the Junit test
 
+![alt text](https://raw.githubusercontent.com/anthonyGosme/loadbalancer/master/Junit.PNG)
+__Unitary tests__
+
 1.A.4 - Local test launches
 -----
 install and unitary test:
@@ -42,6 +45,9 @@ run the proxy from the local environment
 check if the proxy call http://httpstat.us/404 (the resolution is in conf.d/proxy.yaml)*
 
 *curl http://127.0.0.1:8080/404
+
+![alt text](https://raw.githubusercontent.com/anthonyGosme/loadbalancer/master/server.log.PNG)
+__server log__
 
 1.A.5 - Why this solution?
 --------
@@ -127,6 +133,9 @@ the solution includes integration test with JMeter
 - 1 Jmeter file with 9 integrations test Installs the last version of JMeter.
 
 open the test in /intg_test and run them to check multiple scenarios
+
+![alt text](https://raw.githubusercontent.com/anthonyGosme/loadbalancer/master/jmerterperf.PNG)
+__performance and integration test__
 
 2.E - Why this solution?
 -------
