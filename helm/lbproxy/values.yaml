@@ -6,7 +6,7 @@ deploy:
 replicaCount: 1
 image:
   repository: anthonygosme
-  tag: "0.1.7"
+  tag: "0.1.10"
   mountpath: /usr/src/conf.d
   configMap: confproxy
 containerPort: 8080
