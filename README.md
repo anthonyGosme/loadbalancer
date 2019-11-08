@@ -2,10 +2,10 @@
 
 
 
-1.A - part 1implementaion of a proxy
+1.A - part 1 implementaion of a proxy
 ===========
 
-1.A.1 Implementation
+1.A.1 - Implementation
 -----
 the server is writen in java 11
 
@@ -15,7 +15,7 @@ The headers are resend as it to the downstreams servers.
 
 The proxy is automatly configured with the proxy.yaml file found in the /helm/lbproxy directory.
 
-1.A.2 Code quality
+1.A.2 - Code quality
 ------------
 I've validate the code quality with :
 - sonar
@@ -23,13 +23,13 @@ I've validate the code quality with :
 - code coverage 
 
 
-1.A.3 unitary Tests 
+1.A.3 - unitary Tests 
 -------------
 - i've done 10 unitary test with Junit 
 - I've code embeded server mock server deployed and called by the Junit test
 
 
-1.A.4 local test launchs
+1.A.4 - local test launchs
 -----------
 install and unitary test test :
 _cd /loadbalancer/lbproxy
@@ -71,70 +71,84 @@ A servedownstram mock allow to validate easyly the proxy in real envirronement.
 
 I choose Node.js beacaue is fast to implements and package a server mock with it. 
 
-2 Automation & integrationn
+2 - Automation & integrationn
 ===========
 
-2.A Implementation
+2.A - Implementation
 ---------
-The two server are dockerized (see the .DockerFile files) then setup is done via helm.
+The two server are dockerized, then the setup is done via kubernetes and the packaging with helm.
 
 When runnig helm "install lbproxy" the proxy configuration file is automatically send to the proxy server 
 
-2 launch the mock
+2.B - launch the mock
 ------------
 The first server to launch is the downstream server mock (lbserverdown) :
-	cd helm
-	kubectl get pods -o wide | grep lbserverdown
-configure the 3 IP
-	retr
-	modify these ip in ./lbproxy/
-configure the hostname
-	in /etc/host (linux) or (windows) add the hostname
-navigate the lbserverdown server
-	open http://
-	refresh the page to see the time stamp change
+_cd helm
+_helm install lbproxy lbproxy
+retrieve the internal IP ... wait 1 minute to IP to be set
+_kubectl get pods -o wide | grep lbserverdown
+Set up the proxy these 3 IP in the proxy under my-service3 service 
+_vi /helm/lbproxy/proxy.yaml
 
-3 Launch the proxy
+check the acces of the service
+(for test purpose the service expose the ip via minikube, and should be disabled for production)
+_minikube service lbserverdown
+
+2.C - Launch the proxy
 -----------
-modify the ./helm/lbproxy/proxy.yaml accordind to your needs
-launch ./helm/
+check that /helm/lbproxy/proxy.yaml with the service IP (done in 2.B)
+install the proxy
+_cd helm
+_helm install lbproxy lbproxy
+open the service in a browser
+_minikube service lbproxy
+add the service ip found in hostname resolution linux: /etc/hosts windows: C:\Windows\System32\drivers\etc
+_172.17.169.222 aa my-service.my-company.com my-service2.my-company.com my-service3.my-company.com unknown-service.my-company.com
+curl http://my-service3.my-company.com:30080/test
 
-
-4 Integratin Test
+2.D - run the Integratin Test
 -----------
+the solution include integration test with jmeter
 - 1 Jmeter file with 1 performance test
 - 1 Jmeter file with 9 integrations test 
-start the test using a jmeter installation
+Install the last version of jmeter.
 
-6 - why this solution ?
+open the test in /intg_test and run them to check multtiple scenariots 
+
+
+2.E - why this solution ?
 ---------
 docker, helm and kubernetes are states of art solution to create, package and ship cloud aplication based on docker image, and all in a very replicable way.
+
 Docker build image with no dependencies of the hosts and automate the setup of the include service.
-	kubernetes build resiliant services and replicable configuration arround docker images
-	helm package safe realease without harcoded information and manual stept and assure the deployment lifecycle
-	I do Jmeter integrations to test all 'the case in the target envirronement
+
+kubernetes build resiliant services and replicable configuration arround docker images.
+
+helm package safe realease without harcoded information and manual stept and assure the deployment lifecycle
+
+I do Jmeter integrations to test all 'the case in the target envirronement
 	
 	
 
-part 3  monitoring the service & SLI
+3 - monitoring the service & SLI / not finished
 =========
 
 	
 ===== part 3  monitoring the service & SLI / not finished =========
 	'
-I've not finish it yet. 
-A good target to have resiliant and well monitored service is
+The target is to have a resiliant and well monitored service
 
 1 - (done) - do a test performace shoot  
 --------
-	to stress the proxy + get the max TPS supported + get cpu & memory metric 
-	I've done a jmeter test.
-	in my laptop with 100 Virtual users for 10minutes:
-		- proxy add an 2ms lattency   
-		- max performance are 1100 TPS 
-		- memory cunsumption stay lower than 40MB
-		- error rate is 0%
-	see images for more informations
+to stress the proxy , get the max TPS supported and metric about the system
+I've done a jmeter perf test.
+in my laptop with 100 Virtual users for 10minutes:
+- proxy add an 2ms lattency   
+- max performance are 1100 TPS 
+- memory cunsumption stay lower than 90MBi
+- error rate is 0%
+- CPU is 60%
+see images for more informations
 
 2 - (to do) - define and test an operational range (SLO) (to do)
 ----------
