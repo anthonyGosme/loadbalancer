@@ -1,24 +1,35 @@
 package com.anthonygosme.loadbalancer.proxy;
 
 import com.sun.net.httpserver.HttpExchange;
+import lombok.Getter;
+import lombok.Setter;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Sli {
-  private static final Logger LOGGER = LogManager.getLogger(Sli.class);
-  private long startTime;
-  private long TotalTime;
-  private int Code;
-  private String host;
+class Sli {
+    private static final Logger LOGGER = LogManager.getLogger(Sli.class);
+    @Getter
+    @Setter
+    private long startTime;
+    @Getter
+    @Setter
+    private long totalTime;
+    @Getter
+    @Setter
+    private int code;
+    @Getter
+    @Setter
+    private String host;
 
-  Sli(HttpExchange req) {
-    startTime = System.currentTimeMillis();
-    host = req.getRequestURI().getHost();
-  }
+    Sli(HttpExchange req) {
+        startTime = System.currentTimeMillis();
+        host = req.getRequestURI().getHost();
+    }
 
-  void stop(int Code) {
-    TotalTime = System.currentTimeMillis() - startTime;
-    LOGGER.info("status " + Code + " - " + TotalTime + " ms");
-    this.Code = Code;
-  }
+    void stop(int code) {
+        totalTime = System.currentTimeMillis() - startTime;
+        LOGGER.log(Level.INFO,"status " , code , " - " ,totalTime + " ms");
+        this.code = code;
+    }
 }

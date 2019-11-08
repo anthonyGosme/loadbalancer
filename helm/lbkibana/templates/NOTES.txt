@@ -1,0 +1,21 @@
+------------------ configuration : proxy.yaml -------------------------
+{{ .Files.Get "proxy.yaml" |  replace "\r\n" "\n" }}
+-------------------------------------------------------
+
+THe release name is {{ .Release.Name }} 
+
+- configuration:
+  configure the proxy.yaml with the desired services
+  NB : you could start the mock service include : see lbserverdown chart
+
+- installation: 
+  helm install lbproxy lbproxy
+
+- upgrade: 
+  helm upgrade lbproxy lbproxy
+
+- call the service :
+  curl http://my-service.my-company.com:{{ .Values.service.port }}
+
+
+

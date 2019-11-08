@@ -8,16 +8,16 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({"proxy"})
 public class Config {
 
-  @JsonProperty("proxy")
-  private Proxy proxy;
+    @JsonProperty("proxy")
+    private Proxy proxy;
 
-  @JsonProperty("proxy")
-  public Proxy getProxy() {
-    return proxy;
-  }
+    @JsonProperty("proxy")
+    public Proxy getProxy() {
+        return proxy;
+    }
 
-  @JsonProperty("proxy")
-  public void setProxy(Proxy proxy) {
-    this.proxy = proxy;
-  }
+    @JsonProperty("proxy")
+    public void setProxy(Proxy proxy) {
+        this.proxy = proxy;
+    }
 }

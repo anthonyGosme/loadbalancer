@@ -1,0 +1,20 @@
+appName: lbproxy
+config:
+  guestbook_name: "mon livre d'or"
+  backend_uri: "http://blablabla.com"
+deploy:
+replicaCount: 1
+image:
+  repository: anthonygosme
+  tag: "0.1.7"
+  mountpath: /usr/src/conf.d
+  configMap: confproxy
+containerPort: 8080
+service:
+  port: 30080
+  type: NodePort
+  nodePort : 
+ingress:
+  #enable for standalone
+  enabled: true
+  host: my-service.my-company.com

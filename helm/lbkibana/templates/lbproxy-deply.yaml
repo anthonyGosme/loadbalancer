@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }} 
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+        #command: [ "/bin/sh", "-c", "echo $(SPECIAL_LEVEL_KEY) $(SPECIAL_TYPE_KEY)" ]
+      - image: {{ .Values.image.repository }}/{{ .Values.appName }}:{{ .Values.image.tag }}
+       # command: ["cd ", "/usr/src"] 
+        command: ["java", "-jar", "load-balancer.jar"] 
+        #command: ["tail", "-f", "/dev/null"]
+        imagePullPolicy: Always
+        name: {{ .Release.Name }}
+        ports:
+        - name:  {{ .Release.Name }}
+          containerPort: {{ .Values.containerPort }}
+        volumeMounts:
+        - name: config-volume
+          mountPath: {{ .Values.image.mountpath }}
+        imagePullPolicy: IfNotPresent
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ .Values.image.configMap }}

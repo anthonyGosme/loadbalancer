@@ -8,29 +8,29 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({"address", "port"})
 public class Listen {
 
-  @JsonProperty("address")
-  private String address;
+    @JsonProperty("address")
+    private String address;
 
-  @JsonProperty("port")
-  private Integer port;
+    @JsonProperty("port")
+    private Integer port;
 
-  @JsonProperty("address")
-  public String getAddress() {
-    return address;
-  }
+    @JsonProperty("address")
+    public String getAddress() {
+        return address;
+    }
 
-  @JsonProperty("address")
-  public void setAddress(String address) {
-    this.address = address;
-  }
+    @JsonProperty("address")
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-  @JsonProperty("port")
-  public Integer getPort() {
-    return port;
-  }
+    @JsonProperty("port")
+    public Integer getPort() {
+        return port;
+    }
 
-  @JsonProperty("port")
-  public void setPort(Integer port) {
-    this.port = port;
-  }
+    @JsonProperty("port")
+    public void setPort(Integer port) {
+        this.port = port;
+    }
 }

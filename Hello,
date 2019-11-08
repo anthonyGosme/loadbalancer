@@ -1,0 +1,99 @@
+Hello,
+Please found SRE assigment :
+https://github.com/anthonyGosme/loadbalancer
+
+I love this subject very much, it cover 3 key competenciest of DEVOPS/SRE : R&D, Integration, operationnal monitoring.
+Please forgive me for the delay, 
+I really want to have the better and most complete work to give to you.
+
+
+==== part 1 implementaion of a proxy ==
+Impleentation
+	I chose to implement the proxy with a low level of abstraction of HTPP/1.1 to be the most flexibilitty when dealing with protocle.
+	Todo soo I use the Java 11 sun httpsever for inbound and Apache http client for outbound traffic.
+	I've implement GET, POST, PUT and DELELE messages types
+	The headers are resend as it to the downstreams servers.
+
+Code 
+	I've check the code quality with :
+	- sonar
+	- codesmell
+	- code coverage 
+
+Test coded
+	- 10 unitary test with Junit 
+	- one mock server used by unit test 
+	- 1 Jmeters for performance test
+	- 1 Jmeters with 9 integrations test 
+
+
+==== part 1.B downstream server ====
+	I've implement downstream mock server in node JS
+	It resend the body and the headers received
+
+==== part 2 automation ===
+The two server are dockerize (see the dockerFiles)
+The first server to launch is de downstreams server mock (lbserverdown) :
+helm lbserverdown lbserverdown
+
+==== part 3 
+
+I've only finish the part 1 & 2 
+I've  start the part 3, if I would have the time; my solution would include .
+
+1 - do a test performace shoot 
+to stress the proxy + get the max TPS supported + get cpu & memory metric 
+I've done a jmeter test.
+in my laptop with 100 Virtual users for 10minutes:
+- proxy add an 2ms lattency   
+- max performance are 1100 TPS 
+- memory cunsumption stay lower than 40MB
+- error rate is 0%
+
+2 - define and test an operational range (SLO)
+use the same jmeter with different parameters
+I don't run the stress, charge and deconnections
+
+3 - use elastix search to agragate into data issue by the proxy
+ - create an ELK node
+ - post the data from the proxy to elasticsearch 
+ 	- URI
+ 	- response time
+ 	- succes/status status
+ 	- htpp code  
+ 	- response size
+ 	- server downstream connection time
+
+4 - get health status of the proxy via 
+	Hearthbeat :
+	 - liveness
+	 - proxy response time
+	metric beat + jolokia : 
+	- %CPU
+	- %memory
+	- bandwith
+	- memory usage 
+	- http pool
+
+
+5 - monitoring and alert via kibana (SLI)
+ - create view and dashboard of the metrrics
+ - create alert base on SIA & 
+ - Monitor health and metric with kibana views and dashboarbs
+create Alert 
+
+
+I setup and work with differents  SIEM, SLI and  APM platforms, 
+and for devops task ELK (Open Distro) is my preffered  choice :
+- It's very versitille and cover a variaty of need : SIEM, SIA, APM, custom monotoring and dashboard
+- It's flexible and can't conect to many services and can't be setup for every specials needs
+- It's seems to be here to stay a while 
+- It's free and open source and always ready to setup
+Other good alternatives are splunk and dynatrace
+ 
+I like very much the interview I've got with the SRE people  (humainly and technically) .
+I really hope to join this team to work on challenging projects.
+
+I'm looking foward to continue the process,
+Best regards.
+Anthony Gosme
