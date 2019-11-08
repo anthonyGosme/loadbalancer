@@ -116,7 +116,7 @@ public class DownStreamService {
       throws LoadingException, IOException {
 
     HttpEntity entity = new ByteArrayEntity(body.getBytes(StandardCharsets.UTF_8));
-    LOGGER.info("calling service: " , uri);
+    LOGGER.info("calling service: " + uri);
     try {
 
       RequestConfig.Builder requestConfig = RequestConfig.custom();
