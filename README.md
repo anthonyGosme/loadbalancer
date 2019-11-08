@@ -4,66 +4,77 @@ part 1a implementaion of a proxy
 
 1 Implementation
 -----
-	I chose to implement the proxy with a low level of abstraction of HTPP/1.1 to be the most flexibilitty when dealing with protocle.
-	Todo soo I use the Java 11 sun httpsever for inbound and Apache http client for outbound traffic.
-	I've implement GET, POST, PUT and DELELE messages types
-	The headers are resend as it to the downstreams servers.
+I chose to implement the proxy with a low levels HTPP/1.1 java frameworK.
+this way is ost flexible  when dealing with protocle
+I use the Java 11 sun httpsever for inbound and Apache http client for outbound traffic request
+I've implement GET, POST, PUT and DELELE messages types
+The headers are resend as it to the downstreams servers.
+The proxy automatly configured with th proxy.yaml found in the helm root directory
 
 2 Code quality
 ------------
-	I've validate the code quality with :
-	- sonar
-	- codesmell
-	- code coverage 
+I've validate the code quality with :
+- sonar
+- codesmell
+- code coverage 
+
 
 3 unitary Tests 
 -------------
-	- 10 unitary test with Junit 
-	- I've code server mock server for unit test 
+- i've done 10 unitary test with Junit 
+- I've code embeded server mock server deployed and called by the Junit test
 
 
 4 launch
 -----------
-	mvn clean test
+install and unitary test test :
+cd /loadbalancer/lbproxy
+- mvn clean install test
+run the proxy from the local envirronement
+cd /loadbalancer/lbproxy
+java -jar ./target/load-balancer-1.0-SNAPSHOT-jar-with-dependencies.jar
+curl http://127.0.0.1:8080/404
+_the target page called is http://httpstat.us/404 , the resolution is in conf.d/proxy.yaml 
+
+
 
 part 1b implementaion of a downstream server
 ------------
-
-	I've implement downstream mock server in nodejs
-	It send back the body, the headers received, a timestamp key
+I've implement downstream mock server in nodejs
+It send back the body, the headers received, a timestamp key
 
 part 2 automation & integrationn
 ===========
 
 1 Implementation
 ---------
-	The two server setup are dockerized (see the dockerFiles) then setup via helm
-	when runnig helm "install lbproxy" the proxy configuration file is autamtly send to the proxy . 
+The two server setup are dockerized (see the dockerFiles) then setup via helm
+when runnig helm "install lbproxy" the proxy configuration file is autamtly send to the proxy . 
 
 2 launch the mock
 ------------
-	The first server to launch is de downstreams server mock (lbserverdown) :
-		./lbserverdown/helm lbserverdown lbserverdown
-	configure the 3 IP
-		retr
-		modify these ip in ./lbproxy/
-	configure the hostname
-		in /etc/host (linux) or (windows) add the hostname
-	navigate the lbserverdown server
-		open http://
-		refresh the page to see the time stamp change
+The first server to launch is de downstreams server mock (lbserverdown) :
+	./lbserverdown/helm lbserverdown lbserverdown
+configure the 3 IP
+	retr
+	modify these ip in ./lbproxy/
+configure the hostname
+	in /etc/host (linux) or (windows) add the hostname
+navigate the lbserverdown server
+	open http://
+	refresh the page to see the time stamp change
 
 3 Launch the proxy
 -----------
-	modify the ./helm/lbproxy/proxy.yaml accordind to your needs
-	launch ./helm/
+modify the ./helm/lbproxy/proxy.yaml accordind to your needs
+launch ./helm/
 
 
 4 Integratin Test
 -----------
-	- 1 Jmeter file with 1 performance test
-	- 1 Jmeter file with 9 integrations test 
-	start the test using a jmeter installation
+- 1 Jmeter file with 1 performance test
+- 1 Jmeter file with 9 integrations test 
+start the test using a jmeter installation
 
 6 - why this solution ?
 ---------
