@@ -100,7 +100,7 @@ public class DownStreamService {
                             body.toString(),
                             requestUp.getRequestMethod());
         } catch (LoadingException e) {
-            LOGGER.log(Level.ERROR, "error in service workflow: ", e);
+            LOGGER.log(Level.ERROR, "error in service workflow: ", e.getMessage());
             responseO.body = e.getMessage();
             responseO.responseError = true;
 
