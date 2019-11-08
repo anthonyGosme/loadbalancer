@@ -32,12 +32,19 @@ I've validate the code quality with :
 1.A.4 - local test launchs
 -----------
 install and unitary test test :
+
 cd /loadbalancer/lbproxy
+
 *mvn clean install test*
+
 run the proxy from the local envirronement
+
 *cd /loadbalancer/lbproxy*
+
 *java -jar ./target/load-balancer-1.0-SNAPSHOT-jar-with-dependencies.jar*
+
 check if the proxy call http://httpstat.us/404  (the resolution is in conf.d/proxy.yaml)
+
 *curl http://127.0.0.1:8080/404*
 
 
@@ -83,26 +90,41 @@ When runnig helm "install lbproxy" the proxy configuration file is automatically
 2.B - launch the mock
 ------------
 The first server to launch is the downstream server mock (lbserverdown) :
+
 *cd helm*
+
 *helm install lbproxy lbproxy*
+
 retrieve the internal IP ... wait 1 minute to IP to be set
+
 *kubectl get pods -o wide | grep lbserverdown*
+
 Set up the proxy these 3 IP in the proxy under my-service3 service 
+
 *vi /helm/lbproxy/proxy.yaml*
 
 check the acces of the service
+
 (for test purpose the service expose the ip via minikube, and should be disabled for production)
+
 *minikube service lbserverdown*
 
 2.C - Launch the proxy
 -----------
 check that /helm/lbproxy/proxy.yaml with the service IP (done in 2.B)
+
 install the proxy
+
 *cd helm*
+
 *helm install lbproxy lbproxy*
+
 open the service in a browser
+
 *minikube service lbproxy*
+
 add the service ip found in hostname resolution linux: /etc/hosts windows: C:\Windows\System32\drivers\etc
+
 *172.17.169.222 aa my-service.my-company.com my-service2.my-company.com my-service3.my-company.com unknown-service.my-company.com
 curl http://my-service3.my-company.com:30080/test*
 
@@ -114,7 +136,6 @@ the solution include integration test with jmeter
 Install the last version of jmeter.
 
 open the test in /intg*test and run them to check multtiple scenariots 
-
 
 2.E - why this solution ?
 ---------
