@@ -159,7 +159,7 @@ to stress the proxy, get the max TPS supported and metric about the system I've 
 
 - proxy add a 2ms latency
 - max performance is 1100 TPS
-- memory consumption stays lower than 90MBi
+- memory consumption stays lower than 90MB
 - the error rate is 0%
 - CPU is 60%
 - see images for more information
