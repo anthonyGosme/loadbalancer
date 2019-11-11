@@ -36,13 +36,13 @@ install and unitary test:
 
 *mvn clean install test*
 
-run the proxy from the local environment
+run the proxy from the local environment:
 
 *cd /loadbalancer/lbproxy*
 
 *java -jar ./target/load-balancer-1.0-SNAPSHOT-jar-with-dependencies.jar*
 
-check if the proxy call http://httpstat.us/404 (the resolution is in conf.d/proxy.yaml)*
+check if the proxy call http://httpstat.us/404 (the resolution is in conf.d/proxy.yaml):
 
 *curl http://127.0.0.1:8080/404
 
@@ -87,41 +87,41 @@ When running helm "install lbproxy" the proxy configuration file is automaticall
 
 2.B - part 2 - Launch the mock
 --------
-The first server to launch is the downstream server mock (lbserverdown) :
+The first server to launch is the downstream server mock (lbserverdown):
 
 *cd helm*
 
 *helm install lbproxy lbproxy*
 
-retrieve the internal IP ... wait 1 minute to IP to be set
+retrieve the internal IP ... wait 1 minute to the IP to be set:
 
 *kubectl get pods -o wide | grep lbserverdown*
 
-Set up the proxy these 3 IP in the proxy under my-service3 service
+Set up the proxy these 3 IP in the proxy under my-service3 service:
 
 *vi /helm/lbproxy/proxy.yaml*
 
-check the access of the service
+check the access of the service,
 
-(for test purpose the service expose the IP via minikube, and should be disabled for production)
+(for test purpose the service expose the IP via minikube, and should be disabled for production):
 
 *minikube service lbserverdown*
 
 2.C - Launch the proxy
 -------
-check that /helm/lbproxy/proxy.yaml with the service IP (done in 2.B)
+check that /helm/lbproxy/proxy.yaml isconfigured with the service IP (done in 2.B)
 
-*install the proxy*
+install the proxy:
 
 *cd helm*
 
 *helm install lbproxy lbproxy*
 
-open the service in a browser
+open the service in a browser:
 
 *minikube service lbproxy*
 
-add the service IP found in hostname resolution Linux: /etc/hosts Windows: C:\Windows\System32\drivers\etc
+add the service IP found in hostname resolution Linux: /etc/hosts Windows: C:\Windows\System32\drivers\etc:
 
 *172.17.169.222 my-service.my-company.com my-service2.my-company.com my-service3.my-company.com unknown-service.my-company.com curl http://my-service3.my-company.com:30080/test*
 
