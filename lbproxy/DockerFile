@@ -2,27 +2,4 @@ FROM openjdk:11-jdk
 WORKDIR /usr/src
 COPY /target/load-*dependencies.jar ./load-balancer.jar
 RUN mkdir conf.d
-#don't do the provisionig here
-#COPY /conf.d/* ./conf.d/  
-
-#CMD java -jar ./load-balancer-*.jar && tail -F /var/log/mysql/error.log
-#ENTRYPOINT java -jar load-balancer-*.jar && bash
-#CMD tail -f /dev/null
 EXPOSE  8080
-
-
-
-#docker build -t anthonygosme/lbproxy .
-#docker run -p 8080:8080  anthonygosme/lbproxy
-#docker run -it anthonygosme/lbproxy /bin/bash
-#docker login --username=anthonygosme
-#docker push anthonygosme/lbproxy
-
-
-
-#minikube start --mount-string="$HOME/go/src/github.com/nginx:/data"
-
-#C://Users
-#kubectl cp
-#kubectl cp /tmp/foo
-#kubectl cp <some-namespace>/lbproxy-698f4746cc-xgtfp:/tmp/foo /tmp/bar
